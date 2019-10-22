@@ -19,7 +19,7 @@ class Bb(models.Model):
     content = models.TextField(null=True, blank=True, verbose_name='Описание')
     price = models.DecimalField(null=True, blank=True, verbose_name='Цена', max_digits=20000000, decimal_places=2)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубликовано')
-    #rubric = models.ForeignKey(null=True, verbose_name='Рубрика', on_delete=None, to=None)
+    rubric = models.ForeignKey('Rubric', null=True, on_delete=models.PROTECT, verbose_name='Рубрика')
 
     class Meta:
         unique_together = (
@@ -32,3 +32,15 @@ class Bb(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Rubric(models.Model):
+    name = models.CharField(max_length=20, db_index=True, verbose_name='Называние')
+
+    class Meta:
+        verbose_name_plural = 'Рубрики'
+        verbose_name = 'Рубрика'
+        ordering = ['-name']
+
+    def __str__(self):
+        return self.name
