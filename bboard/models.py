@@ -3,15 +3,16 @@ from django.core import validators
 from django.utils.encoding import python_2_unicode_compatible
 
 
+
 @python_2_unicode_compatible
 class Bb(models.Model):
-    # KINDS = (
-    #     ('None', 'Выберите разряд публикуемого обьявленя'),
-    #     ('Куплю', 'Куплю'),
-    #     ('Продам', 'Продам'),
-    #     ('Обменяю', 'Обменяю'),
-    # )
-    # kind = models.CharField(null=None, max_length=10, choices=KINDS)
+    KINDS = (
+        ('None', 'Выберите разряд публикуемого обьявленя'),
+        ('Куплю', 'Куплю'),
+        ('Продам', 'Продам'),
+        ('Обменяю', 'Обменяю'),
+    )
+    kind = models.CharField(max_length=10, choices=KINDS, default=True)
     title = models.CharField(max_length=50, verbose_name='Товар',
                              validators=[validators.RegexValidator(regex='^.{4,}$')],
                              error_messages={'invalid': 'Неправильно называние товара'},
@@ -44,3 +45,11 @@ class Rubric(models.Model):
 
     def __str__(self):
         return self.name
+
+# как ссылка на функцию, вызываемую при создании каждой новой записи
+# и возвращающую в качестве результата нужное значение:
+def is_active_default():
+    return not is_all_posts_passive
+
+
+is_active = models.BooleanField(default=is_active_default)
