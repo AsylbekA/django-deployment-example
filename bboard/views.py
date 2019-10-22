@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Bb
+from django.template import loader
 
 
 def index(request):
-    s = 'Список обьявлений \r\n\r\n\r\n'
-    for bb in Bb.objects.order_by('-published'):
-        s += bb.title + '\r\n' + bb.content + '\r\r\r\n'
-    return HttpResponse(s, content_type='text/plain; charset=utf-8 ')
+    template = loader.get_template('bboard/index.html')
+    bbs = Bb.objects.order_by('-published')
+    context = {'bbs': bbs}
+    return HttpResponse(template.render(context, request))
