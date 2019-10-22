@@ -5,13 +5,13 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class Bb(models.Model):
-    KINDS = (
-        ('None', 'Выберите разряд публикуемого обьявленя'),
-        ('Куплю', 'Куплю'),
-        ('Продам', 'Продам'),
-        ('Обменяю', 'Обменяю'),
-    )
-    kind = models.CharField(max_length=10, choices=KINDS)
+    # KINDS = (
+    #     ('None', 'Выберите разряд публикуемого обьявленя'),
+    #     ('Куплю', 'Куплю'),
+    #     ('Продам', 'Продам'),
+    #     ('Обменяю', 'Обменяю'),
+    # )
+    # kind = models.CharField(max_length=10, choices=KINDS)
     title = models.CharField(max_length=50, verbose_name='Товар',
                              validators=[validators.RegexValidator(regex='^.{4,}$')],
                              error_messages={'invalid': 'Неправильно называние товара'},
