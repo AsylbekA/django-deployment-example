@@ -56,5 +56,14 @@ is_active = models.BooleanField(default=is_active_default)
 
 
 class AdvUser(models.Model):
-    is_activeted = models.BooleanField(default=True)
+    is_activated = models.BooleanField(default=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+class Spare(models.Model):
+    name = models.CharField(max_length=30, verbose_name='Называния детали')
+
+
+class Machine(models.Model):
+    name = models.CharField(max_length=30, verbose_name='Называния машина')
+    spares = models.ManyToManyField(Spare)
