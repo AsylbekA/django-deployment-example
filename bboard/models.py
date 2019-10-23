@@ -2,6 +2,7 @@ from django.db import models
 from django.core import validators
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 @python_2_unicode_compatible
@@ -12,7 +13,7 @@ class Bb(models.Model):
         ('Продам', 'Продам'),
         ('Обменяю', 'Обменяю'),
     )
-    kind = models.CharField(max_length=10, choices=KINDS, default=True)
+    kind = models.CharField(max_length=10, choices=KINDS, default=True, verbose_name='Сортировка')
     title = models.CharField(max_length=50, verbose_name='Товар',
                              validators=[validators.RegexValidator(regex='^.{4,}$')],
                              error_messages={'invalid': 'Неправильно называние товара'},
@@ -67,3 +68,9 @@ class Spare(models.Model):
 class Machine(models.Model):
     name = models.CharField(max_length=30, verbose_name='Называния машина')
     spares = models.ManyToManyField(Spare)
+
+
+def validate_even(val):
+    if val % 2 != 0:
+        raise ValidationError('Число % (value) s нечетнoе', code='odd',
+                              params={'value': val})
