@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.utils.encoding import python_2_unicode_compatible
-
+from django.contrib.auth.models import User
 
 
 @python_2_unicode_compatible
@@ -53,3 +53,8 @@ def is_active_default():
 
 
 is_active = models.BooleanField(default=is_active_default)
+
+
+class AdvUser(models.Model):
+    is_activeted = models.BooleanField(default=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
