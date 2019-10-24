@@ -30,3 +30,20 @@ class BbCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['rubrics'] = Rubric.objects.all()
         return context
+
+
+def add(request):
+    bbf = BbForm()
+    context = {'form': bbf}
+    return render(request, 'bboard/create.html', context)
+
+
+def add_save(request):
+    bbf = BbForm(request.POST)
+    if bbf.is_valid():
+        bbf.save()
+        return HttpResponseRedirect(reverse('by_rubric',
+                                            kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk}))
+    else:
+        context = {'form': bbf}
+        return render(request, 'bboard/create/html', context)
