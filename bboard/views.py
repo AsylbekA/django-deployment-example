@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from .forms import BbForm
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
@@ -65,3 +65,12 @@ def add_and_save(request):
         bbf = BbForm()
         context = {'form': bbf}
         return render(request, 'bboard/create.html', context)
+
+
+def index(request):
+    resp = HttpResponse("Здесь будет",
+                        content_type='text/plain; charset=utf-8')
+    resp.write(' главная')
+    resp.writelines((' страница', ' сайта'))
+    resp['keywords'] = 'Python', 'Django'
+    return resp
