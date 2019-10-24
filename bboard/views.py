@@ -3,6 +3,8 @@ from .models import Bb, Rubric
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from .forms import BbForm
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -47,3 +49,19 @@ def add_save(request):
     else:
         context = {'form': bbf}
         return render(request, 'bboard/create/html', context)
+
+
+def add_and_save(request):
+    if request.method == 'POST':
+        bbf = BbForm(request.POST)
+        if bbf.is_valid():
+            bbf.save()
+            return HttpResponseRedirect(reverse('bboard:by_rubric',
+                                                kwargs={'rubric_id': bbf.cleaned_data['rubric'.pk]}))
+        else:
+            context = {'form': bbf}
+            return render(request,'bboard/create.html', context)
+    else:
+        bbf = BbForm()
+        context = {'form': bbf}
+        return render(request, 'bboard/create.html', context)
