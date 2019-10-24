@@ -3,6 +3,7 @@ from django.core import validators
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 @python_2_unicode_compatible
@@ -34,6 +35,21 @@ class Bb(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        errors = {}
+        if not self.content:
+            errors['content'] = ValidationError('Укажите описание' +\
+                                                'продаваемого товара')
+
+        if self.price and self.price < 0:
+            errors['content'] = ValidationError('Укажите' +\
+                                                'неотрицательное значение цены')
+
+        if errors:
+            raise ValidationError(errors)
+
+    #errors[NON_FIELD_ERRORS] = ValidationError('Ошибка в модели!')
 
 
 class Rubric(models.Model):
