@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bb, Rubric
+from .models import Bb, Rubric, Machine, Spare, AdvUser
 
 
 class BbAdmin(admin.ModelAdmin):
@@ -8,6 +8,14 @@ class BbAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
 
 
-admin.site.register(Bb, BbAdmin)
+class AdvUser(admin.ModelAdmin):
+    list_display = ('is_activated', 'user')
+
+
+admin.site.register(Bb)
+admin.site.register(BbAdmin)
+admin.site.register(Machine)
+admin.site.register(AdvUser)
 admin.site.register(Rubric)
+admin.site.register(Spare)
 
