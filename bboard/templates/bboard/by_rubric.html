@@ -4,6 +4,8 @@
 
 {% block content %}
 <h2>Рубрика:{{current_rubric.name}}</h2>
+<h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title}}</a></h2>
+<h2><a href="{% url 'edit' pk=bb.pk %}">{{ bb.title}}</a></h2>
 {% for bb in bbs %}
 <div>
     <h2>{{bb.title}}</h2>
